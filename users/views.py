@@ -45,31 +45,6 @@ def courses(request):
     return render(request, 'users/courses.html')
 
 
-@user_is_company
-def add_vacancy(request):
-    pass
-
-
-@user_is_company
-def my_vacancies(request):
-    pass
-
-
-@user_is_company
-def all_resumes(request):
-    pass
-
-
-# Добавление резюме, доступно для пользователя, имеющего доступ хотя бы к одному курсу
-def add_resume(request):
-    pass
-
-
-# Просмотр страницы со всеми резюме текущего пользователя
-def my_resumes(request):
-    pass
-
-
 def profile(request, id):
     context = {'user': User.objects.get(pk=id)}
     return render(request, 'users/profile.html', context)

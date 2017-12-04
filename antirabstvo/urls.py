@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('main.urls', namespace='main')),
     url(r'^users/', include('users.urls', namespace='users')),
+    url(r'^resumes/', include('resumes.urls', namespace='resumes')),
+    url(r'^vacancies/', include('vacancies.urls', namespace='vacancies'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

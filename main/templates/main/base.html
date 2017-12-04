@@ -30,11 +30,11 @@
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'users:profile' user.id %}">Мой профиль</a></li>
                             {% if user|is_company %}
-                            <li><a href="{% url 'users:my_vacancies' %}">Мои вакансии</a></li>
-                            <li><a href="{% url 'users:all_resumes' %}">Поиск соискателей</a></li>
+                            <li><a href="{% url 'vacancies:my_vacancies' %}">Мои вакансии</a></li>
+                            <li><a href="{% url 'resumes:all_resumes' %}">Поиск соискателей</a></li>
                             {% else %}
                             <li><a href="{% url 'users:courses' %}">Мои курсы</a></li>
-                            <li><a href="{% url 'users:my_resumes' %}">Мои резюме</a></li>
+                            <li><a href="{% url 'resumes:my_resumes' %}">Мои резюме</a></li>
                             {% endif %}
                             <li><a href="{% url 'users:logout' %}">Выход</a></li>
                         </ul>
