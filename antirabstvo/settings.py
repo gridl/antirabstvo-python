@@ -17,7 +17,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'antirabstvo',
-    'main',
     'users',
     'resumes',
     'vacancies'
@@ -95,3 +94,5 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL = '/users/login/'
+
+AUTH_USER_MODEL = 'users.User'

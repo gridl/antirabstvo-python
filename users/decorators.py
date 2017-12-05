@@ -1,10 +1,8 @@
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.models import Group
 
-def user_is_company(function):
+def user_is_employer(function):
     def wrap(request, *args, **kwargs):
-        group = Group.objects.get(name='Компания')
-        if group in request.user.groups.all() or request.user.is_staff:
+        if request.user.is_employer or request.user.is_staff:
             return function(request, *args, **kwargs)
         else:
             raise PermissionDenied

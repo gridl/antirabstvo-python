@@ -17,6 +17,6 @@
     <button type="submit" class="btn btn-default">Войти</button>
     <a href="{% url 'users:register' %}">Зарегистрироваться</a>
     <a href="">Забыли пароль?</a>
-    <input type="hidden" name="next" value="{% url 'main:index' %}" />
+    <input type="hidden" name="next" value="{% url 'index' %}" />
 </form>
 {% endblock content %}

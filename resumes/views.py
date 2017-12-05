@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from users.decorators import user_is_company
+from users.decorators import user_is_employer
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@user_is_company
+@user_is_employer
 def all_resumes(request):
     pass
 

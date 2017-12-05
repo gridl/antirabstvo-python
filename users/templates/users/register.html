@@ -2,50 +2,24 @@
 {% block content %}
 <form method="post" action="{% url 'users:register' %}">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="login">Логин</label>
-        <input type="text" class="form-control" id="login" name="login" required placeholder="Логин">
+    <!-- {{ form.as_p }} -->
+    {% for error in form.non_field_errors %}
+    <div class="form-group has-errors text-danger small">
+        {{error}}
+    </div>
+    {% endfor %}
+    {% for field in form %}
+    <div class="form-group has-errors text-danger small">
+        {{field.errors}}
+    </div>
+    <div class="form-group has-errors text-danger small">
     </div>
     <div class="form-group">
-        <label for="phone">Телефон</label>
-        <input type="text" class="form-control" id="phone" name="phone" required placeholder="Телефонный номер">
+        {{ field.label_tag }}
+        {{ field }}
     </div>
-    <div class="form-group">
-        <label for="login">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required placeholder="Ваш email">
-    </div>
-    <div class="form-group">
-        <label for="first">Имя</label>
-        <input type="text" class="form-control" id="first" name="first" placeholder="Укажите ваше имя">
-    </div>
-    <div class="form-group">
-        <label for="last">Фамилия</label>
-        <input type="text" class="form-control" id="last" name="last" placeholder="Укажите вашу фамилию">
-    </div>
-    <div class="form-group">
-        <label for="password">Пароль</label>
-        <input type="password" class="form-control" id="password" name="password" required placeholder="Укажите ваш пароль">
-    </div>
-    <div class="form-group">
-        <label for="password1">Подтвердите пароль</label>
-        <input type="password" class="form-control" id="password1" name="password1" required placeholder="Повторите ваш пароль">
-    </div>
-    <div class="form-group">
-        <label for="role">Выберите роль</label>
-        <div class="radio">
-            <label>
-                <input type="radio" name="role" id="role1" value="user" checked>
-                Простой пользователь
-            </label>
-        </div>
-        <div class="radio">
-            <label>
-                <input type="radio" name="role" id="role2" value="company">
-                Компания
-            </label>
-        </div>
-    </div>
+    {% endfor %}
     <button type="submit" class="btn btn-default">Зарегистрироваться</button>
-    <input type="hidden" name="next" value="{% url 'main:index' %}" />
+    <input type="hidden" name="next" value="{% url 'index' %}" />
 </form>
 {% endblock content %}

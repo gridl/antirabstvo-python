@@ -1,43 +1,38 @@
 from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User, Group
-from . import models
+from .models import User
+from .forms import CustomUserCreationForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from users.decorators import user_is_company
+from users.decorators import user_is_employer
 
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('main:index'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 def register(request):
     if request.method == 'POST':
-        data = request.POST
-        new_user = User.objects.create_user(
-            username=data['login'], 
-            first_name=data['first'], 
-            last_name=data['last'],
-            email=data['email']
-        )
-        if(data['role'] == 'company'):
-            group = 2
-        else:
-            group = 3
-        new_user.set_password(data['password'])
-        new_user.groups.add(group)
-        new_user.profile.phone = data['phone']
-        new_user.save()
-        authenticated_user = authenticate(
-            username=new_user.username,
-            password=data['password1']
-        )
-        login(request, authenticated_user)
-        return HttpResponseRedirect(reverse('main:index'))
-
-    return render(request, 'users/register.html')
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            if form.cleaned_data.get('role') == 'company':
+                is_employer = True
+            else:
+                is_employer = False
+            user = form.save()
+            user.is_employer = is_employer
+            user.save()
+            from django.contrib.auth import authenticate, login
+            user = authenticate(username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password1'))
+            login(request, user)
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        form = CustomUserCreationForm()
+        
+    return render(request, 'users/register.html', {'form': form})
 
 
 @login_required
