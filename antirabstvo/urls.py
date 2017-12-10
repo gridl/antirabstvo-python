@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^resumes/', include('resumes.urls', namespace='resumes')),
     url(r'^vacancies/', include('vacancies.urls', namespace='vacancies'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] \
+              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+              + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,79 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<a class="btn btn-primary" href="{% url 'resumes:add_resume' %}" style="margin-bottom:20px" role="button">Добавить резюме</a>
+{% if resumes.count > 0 %}
+<table class="table table-striped">
+    <tr>
+        <th>Заголовок резюме</th>
+        <th>Статус</th>
+        <th>Дата добавления</th>
+        <th>Дата изменения</th>
+        <th>Действия</th>
+    </tr>
+    {% for resume in resumes %}
+    <tr id="resume-row-{{ resume.pk }}">
+        <td><a href="{% url 'resumes:view_resume' resume.pk %}">{{ resume }}</a></td>
+        <td class="status">{{ resume.status }}</td>
+        <td>{{ resume.date_created }}</td>
+        <td>{{ resume.date_changed }}</td>
+        <td>
+            {% if resume.status == 'published' %}
+                <a href="" id="hide" data-id="{{ resume.pk }}">Скрыть</a>
+                <a href="" id="publish" style="display:none" data-id="{{ resume.pk }}">Опубликовать</a>
+            {% else %}
+                <a href="" id="hide" style="display:none" data-id="{{ resume.pk }}">Скрыть</a>
+                <a href="" id="publish" data-id="{{ resume.pk }}">Опубликовать</a>
+            {% endif %}
+            <a href="{% url 'resumes:change_resume' resume.pk %}">Изменить</a>
+            <a href="" id="delete" data-id="{{ resume.pk }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}
+{% block extra_scripts %}
+<script>
+    $('#hide').click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'resumes:set_status' %}",
+            JSON.stringify({
+                'resume': $(this).data('id'),
+                'status': 'hidden'
+            })
+        ).done(function(msg){
+            $('#hide').hide();
+            $('#publish').show();
+        });
+        location.reload()
+    });
+    $('#publish').click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'resumes:set_status' %}",
+            JSON.stringify({
+                'resume': $(this).data('id'),
+                'status': 'published'
+            })
+        ).done(function(msg){
+            $('#hide').show();
+            $('#publish').hide();
+        });
+        location.reload()
+    });
+    $('#delete').click(function(e){
+        e.preventDefault();
+        id = $(this).data('id')
+        $.post(
+            "{% url 'resumes:delete_resume' %}",
+            JSON.stringify({
+                'resume': id,
+            })
+        ).done(function(msg){
+            $('#resume-row-'+id).hide();
+        });
+        console.log($(this).closest(".status").val())
+    });
+</script>
+{% endblock extra_scripts %}

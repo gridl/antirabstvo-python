@@ -103,5 +103,8 @@ ENV/
 # vscode
 .vscode/
 
+# pycharm
+.idea/
+
 # project db
 *.sqlite3

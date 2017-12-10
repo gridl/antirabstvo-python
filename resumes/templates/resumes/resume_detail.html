@@ -1,0 +1,15 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<p>{{ object.fio }}</p>
+<p>{{ object.email }}</p>
+<p>{{ object.title }}</p>
+<p>{{ object.location }}</p>
+<p>{{ object.photo }}</p>
+<p>{{ object.industry }}</p>
+<p>{{ object.summary }}</p>
+<p><a href="{{ object.resume_file.url }}">Файл резюме</a></p>
+<p>{{ object.skills }}</p>
+<p>{{ object.experience }}</p>
+<p>{{ object.date_created }}</p>
+<p>{{ object.date_changed }}</p>
+{% endblock content %}

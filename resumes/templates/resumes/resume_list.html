@@ -1,0 +1,21 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+{% if object_list.count > 0 %}
+<table class="table table-striped">
+    <tr>
+        <th>Заголовок резюме</th>
+        <th>Статус</th>
+        <th>Дата добавления</th>
+        <th>Дата изменения</th>
+    </tr>
+    {% for resume in object_list %}
+    <tr>
+        <td><a href="{% url 'resumes:view_resume' resume.pk %}">{{ resume }}</a></td>
+        <td>{{ resume.status }}</td>
+        <td>{{ resume.date_created }}</td>
+        <td>{{ resume.date_changed }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}
