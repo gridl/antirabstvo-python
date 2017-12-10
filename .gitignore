@@ -108,3 +108,6 @@ ENV/
 
 # project db
 *.sqlite3
+
+# media files
+media/uploads/user_resume/
