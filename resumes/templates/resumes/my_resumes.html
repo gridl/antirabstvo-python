@@ -13,7 +13,7 @@
     {% for resume in resumes %}
     <tr id="resume-row-{{ resume.pk }}">
         <td><a href="{% url 'resumes:view_resume' resume.pk %}">{{ resume }}</a></td>
-        <td class="status">{{ resume.status }}</td>
+        <td id="status-{{ resume.pk }}">{{ resume.get_status_name }}</td>
         <td>{{ resume.date_created }}</td>
         <td>{{ resume.date_changed }}</td>
         <td>
@@ -36,31 +36,33 @@
 <script>
     $('#hide').click(function(e){
         e.preventDefault();
+        resume_id = $(this).data('id');
         $.post(
             "{% url 'resumes:set_status' %}",
             JSON.stringify({
-                'resume': $(this).data('id'),
+                'resume': resume_id,
                 'status': 'hidden'
             })
         ).done(function(msg){
+            $('#status-'+resume_id).text('Скрыто');
             $('#hide').hide();
             $('#publish').show();
         });
-        location.reload()
     });
     $('#publish').click(function(e){
         e.preventDefault();
+        resume_id = $(this).data('id');
         $.post(
             "{% url 'resumes:set_status' %}",
             JSON.stringify({
-                'resume': $(this).data('id'),
+                'resume': resume_id,
                 'status': 'published'
             })
         ).done(function(msg){
+            $('#status-'+resume_id).text('Опубликовано');
             $('#hide').show();
             $('#publish').hide();
         });
-        location.reload()
     });
     $('#delete').click(function(e){
         e.preventDefault();

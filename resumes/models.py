@@ -34,3 +34,6 @@ class Resume(models.Model):
 
     def get_absolute_url(self):
         return "/resumes/resume/%i/" % self.pk
+
+    def get_status_name(self):
+        return self.get_status_display()

@@ -10,9 +10,11 @@ import json
 from resumes.forms import ResumeForm
 from django.http import HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
+from django.utils.decorators import method_decorator
 
-# Декоратор для CBV???
-# @user_is_employer
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_is_employer, name='dispatch')
 class ResumeListView(ListView):
     queryset = models.Resume.objects.filter(status='published')
 
@@ -39,6 +41,7 @@ def my_resumes(request):
     return render(request, 'resumes/my_resumes.html', {'resumes': resumes})
 
 
+@method_decorator(login_required, name='dispatch')
 class ResumeDetailView(DetailView):
     model = models.Resume
 
@@ -63,6 +66,8 @@ class DeleteResumeView(View):
             'status': 'ok',
         })
 
+
+@method_decorator(login_required, name='dispatch')
 class ResumeUpdateView(UpdateView):
     model = models.Resume
     fields = ['email', 'title', 'location', 'photo', 'industry', 'summary', 'resume_file', 'skills', 'experience']
