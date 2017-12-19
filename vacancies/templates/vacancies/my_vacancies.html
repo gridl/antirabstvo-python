@@ -1,0 +1,42 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<a class="btn btn-primary" href="{% url 'vacancies:add_vacancy' %}" style="margin-bottom:20px" role="button">Добавить вакансию</a>
+{% if vacancies.count > 0 %}
+<table class="table table-striped">
+    <tr>
+        <th>Заголовок вакансии</th>
+        <th>Дата добавления</th>
+        <th>Дата изменения</th>
+        <th>Действия</th>
+    </tr>
+    {% for vacancy in vacancies %}
+    <tr id="vacancy-row-{{ vacancy.pk }}">
+        <td><a href="{% url 'vacancies:view_vacancy' vacancy.pk %}">{{ vacancy }}</a></td>
+        <td>{{ vacancy.date_created }}</td>
+        <td>{{ vacancy.date_changed }}</td>
+        <td>
+            <a href="{% url 'vacancies:change_vacancy' vacancy.pk %}">Изменить</a>
+            <a href="" id="delete" data-id="{{ vacancy.pk }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    $('#delete').click(function(e){
+        e.preventDefault();
+        id = $(this).data('id')
+        $.post(
+            "{% url 'vacancies:delete_vacancy' %}",
+            JSON.stringify({
+                'vacancy': id,
+            })
+        ).done(function(msg){
+            $('#vacancy-row-'+id).hide();
+        });
+    });
+</script>
+{% endblock extra_scripts %}

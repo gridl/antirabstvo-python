@@ -1,0 +1,25 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+{% if object_list.count > 0 %}
+<table class="table table-striped">
+    <tr>
+        <th>Заголовок вакансии</th>
+        <th>Тип</th>
+        <th>Локация</th>
+        <th>Компания</th>
+        <th>Дата добавления</th>
+        <th>Дата изменения</th>
+    </tr>
+    {% for vacancy in object_list %}
+    <tr>
+        <td><a href="{% url 'vacancies:view_vacancy' vacancy.pk %}">{{ vacancy }}</a></td>
+        <td>{{ vacancy.type }}</td>
+        <td>{{ vacancy.location }}</td>
+        <td>{{ vacancy.company_name }}</td>
+        <td>{{ vacancy.date_created }}</td>
+        <td>{{ vacancy.date_changed }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}

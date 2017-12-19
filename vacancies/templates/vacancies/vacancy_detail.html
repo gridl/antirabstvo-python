@@ -1,0 +1,15 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<p>{{ object.title }}</p>
+<p>{{ object.location }}</p>
+<p>{{ object.type }}</p>
+<p>{{ object.email_for_resume }}</p>
+<p>{{ object.description }}</p>
+<p>{{ object.company_name }}</p>
+<p>{{ object.company_site }}</p>
+{% if object.company_logo %}
+    <p>{{ object.company_logo.url }}</p>
+{% endif %}
+<p>{{ object.date_created }}</p>
+<p>{{ object.date_changed }}</p>
+{% endblock content %}

@@ -35,6 +35,7 @@
                             {% else %}
                             <li><a href="{% url 'users:courses' %}">Мои курсы</a></li>
                             <li><a href="{% url 'resumes:my_resumes' %}">Мои резюме</a></li>
+                            <li><a href="{% url 'vacancies:all_vacancies' %}">Поиск вакансий</a></li>
                             {% endif %}
                             <li><a href="{% url 'users:logout' %}">Выход</a></li>
                         </ul>
