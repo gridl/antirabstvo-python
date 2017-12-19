@@ -42,8 +42,8 @@ class VacancyDetailView(DetailView):
     model = models.Vacancy
 
 
-@login_required
-@user_is_employer
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_is_employer, name='dispatch')
 class DeleteVacancyView(View):
     def post(self, request, *args, **kwargs):
         vacancy = models.Vacancy.objects.get(pk=request.POST['vacancy'])
