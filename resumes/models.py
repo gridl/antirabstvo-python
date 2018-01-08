@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.urlresolvers import reverse
 
 class Resume(models.Model):
     STATUS_CHOICES = (
@@ -33,7 +33,7 @@ class Resume(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/resumes/resume/%i/" % self.pk
+        return reverse('resumes:view_resume', self.pk)
 
     def get_status_name(self):
         return self.get_status_display()

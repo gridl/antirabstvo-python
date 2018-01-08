@@ -1,37 +1,39 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
-from django.views import View
-from users.decorators import user_is_employer
 from . import models
 from vacancies.forms import VacancyForm
-from django.core.urlresolvers import reverse
+from users.decorators import user_is_employer
+from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, FormView
+from django.views import View
 from django.utils.decorators import method_decorator
 
 
-@login_required
-@user_is_employer
-def add_vacancy(request):
-    if request.method == 'POST':
-        form = VacancyForm(request.POST, request.FILES)
-        if form.is_valid():
-            resume = form.save(commit=False)
-            resume.creator = request.user
-            resume.save()
-        return HttpResponseRedirect(reverse('vacancies:my_vacancies'))
-    else:
-        form = VacancyForm()
-    return render(request, 'vacancies/add_vacancy.html', {'form': form})
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_is_employer, name='dispatch')
+class AddVacancyView(FormView):
+    template_name = 'vacancies/add_vacancy.html'
+    form_class = VacancyForm
+    success_url = reverse_lazy('vacancies:my_vacancies')
+
+    def form_valid(self, form):
+        vacancy = form.save(commit=False)
+        vacancy.creator = self.request.user
+        vacancy.save()
+        return super().form_valid(form)
 
 
-@login_required
-@user_is_employer
-def my_vacancies(request):
-    vacancies = models.Vacancy.objects.filter(creator=request.user)
-    return render(request, 'vacancies/my_vacancies.html', {'vacancies': vacancies})
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_is_employer, name='dispatch')
+class MyVacanciesView(View):
+    template_name = 'vacancies/my_vacancies.html'
+
+    def get(self, request, *args, **kwargs):
+        vacancies = models.Vacancy.objects.filter(creator=request.user)
+        return render(request, self.template_name, {'vacancies': vacancies})
 
 
 class VacancyListView(ListView):

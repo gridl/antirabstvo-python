@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django import forms
 
-class CustomUserCreationForm(UserCreationForm):
+class UserCreationForm(UserCreationForm):
     ROLE_CHOICES = (
         ('user', "Простой пользователь"),
         ('company', "Компания")
