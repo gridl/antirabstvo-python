@@ -3,17 +3,13 @@
 {% if object_list.count > 0 %}
 <table class="table table-striped">
     <tr>
-        <th>Заголовок резюме</th>
-        <th>Статус</th>
+        <th>Вопрос</th>
         <th>Дата добавления</th>
-        <th>Дата изменения</th>
     </tr>
-    {% for resume in object_list %}
+    {% for question in questions %}
     <tr>
-        <td><a href="{% url 'resumes:view_resume' resume.pk %}">{{ resume }}</a></td>
-        <td>{{ resume.status }}</td>
-        <td>{{ resume.date_created }}</td>
-        <td>{{ resume.date_changed }}</td>
+        <td><a href="{% url 'questions:view_question' question.pk %}">{{ question }}</a></td>
+        <td>{{ question.date_created }}</td>
     </tr>
     {% endfor %}
 </table>

@@ -1,0 +1,22 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<a class="btn btn-primary" href="{% url 'questions:add_question' %}" style="margin-bottom:20px" role="button">Добавить вопрос</a>
+{% if questions.count > 0 %}
+<table class="table table-striped">
+    <tr>
+        <th>Заголовок резюме</th>
+        <th>Статус</th>
+        <th>Дата добавления</th>
+        <th>Категория</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+        <td><a href="{% url 'questions:view_question' question.pk %}">{{ question }}</a></td>
+        <td>{{ question.get_visible_status_name }}</td>
+        <td>{{ question.date_created }}</td>
+        <td><a href="{% url 'questions:show_category' question.category %}">{{ question.get_category_name }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}

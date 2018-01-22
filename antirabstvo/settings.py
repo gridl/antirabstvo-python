@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'antirabstvo',
     'users',
     'resumes',
-    'vacancies'
+    'vacancies',
+    'questions'
 ]
 
 MIDDLEWARE = [

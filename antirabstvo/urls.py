@@ -24,7 +24,8 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^resumes/', include('resumes.urls', namespace='resumes')),
-    url(r'^vacancies/', include('vacancies.urls', namespace='vacancies'))
+    url(r'^vacancies/', include('vacancies.urls', namespace='vacancies')),
+    url(r'^questions/', include('questions.urls', namespace='questions'))
 ] \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

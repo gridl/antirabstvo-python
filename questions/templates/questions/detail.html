@@ -1,0 +1,33 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<p>{{ question.title }}</p>
+{% if request.user.is_staff %}
+<p><a href="{% url 'questions:delete_question' question.pk %}">Удалить вопрос</a></p>
+{% endif %}
+<p>{{ question.question_text }}</p>
+{% if question.creator %}
+<p>{{ question.creator }}</p>
+{% else %}
+<p>{{ question.user_name }}</p>
+<p>{{ question.user_email }}</p>
+{% endif %}
+<p>{{ question.date_created }}</p>
+{% if answers.count > 0 %}
+<h3>Ответы:</h3>
+{% for answer in answers %}
+<div class="answer">
+    <p>{{ answer }}</p>
+    <p>{{ answer.date_created }}</p>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if request.user.is_staff %}
+<h3>Ответить на вопрос</h3>
+<form method="post" enctype="multipart/form-data" action="{% url 'questions:answer_question' question.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-default">Ответить</button>
+</form>
+{% endif %}
+{% endblock content %}
