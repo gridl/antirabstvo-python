@@ -110,4 +110,5 @@ ENV/
 *.sqlite3
 
 # media files
+media/
 media/uploads/user_resume/

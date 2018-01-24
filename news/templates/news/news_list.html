@@ -1,0 +1,11 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+{% for news in object_list %}
+<div class="news" style="margin-bottom:15px;">
+    <a href="{% url 'news:view_news' news.pk %}"><h3>{{ news.title }}</h3>
+    <img src="{{ news.image.url }}" /></a>
+    <p>Опубликовано {{ news.date_created }}</p>
+    <p>Просмотров: {{ news.count_views }}</p>
+</div>
+{% endfor %}
+{% endblock content %}

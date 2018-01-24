@@ -1,0 +1,10 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<div class="news" style="margin-bottom:15px;">
+    <h2>{{ object.title }}</h2>
+    <img src="{{ object.image.url }}" />
+    <p style="padding-top:20px">{{ object.text }}</p>
+    <p>Опубликовано {{ object.date_created }}</p>
+    <p>Просмотров: {{ object.count_views }}</p>
+</div>
+{% endblock content %}

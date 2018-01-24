@@ -17,15 +17,16 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
-from . import views
+from news import views as news_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
+    url(r'^$', news_views.NewsListView.as_view(), name='index'),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^resumes/', include('resumes.urls', namespace='resumes')),
     url(r'^vacancies/', include('vacancies.urls', namespace='vacancies')),
-    url(r'^questions/', include('questions.urls', namespace='questions'))
+    url(r'^questions/', include('questions.urls', namespace='questions')),
+    url(r'^news/', include('news.urls', namespace='news'))
 ] \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
