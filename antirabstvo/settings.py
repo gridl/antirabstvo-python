@@ -21,7 +21,8 @@ INSTALLED_APPS = [
     'resumes',
     'vacancies',
     'questions',
-    'news'
+    'news',
+    'courses'
 ]
 
 MIDDLEWARE = [

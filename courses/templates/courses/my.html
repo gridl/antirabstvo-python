@@ -1,0 +1,15 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+{% if my_courses.count > 0 %}
+<P>Доступные вам курсы:</P>
+<table class="table table-striped">
+    {% for access_course in my_courses %}
+    <tr>
+        <td><a href="{% url 'courses:course_detail' access_course.pk %}">{{ access_course.course }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>На данный момент у вас нет доступа ни к одному курсу</p>
+{% endif %}
+{% endblock content %}

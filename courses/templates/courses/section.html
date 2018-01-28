@@ -1,0 +1,22 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<p>{{ section.title }}</p>
+<p>{{ section.section_content }}</p>
+{% if homework %}
+    {% if user_homework %}
+        {% if user_homework.status == 'send' %}
+            <p>Ваш ответ был отправлен куратору, когда он проверит его, вам откроется следующий раздел.</p>
+        {% else %}
+            <a href="{% url 'courses:next_section' section.pk %}">Следующий раздел</a>
+        {% endif %}
+    {% else %}
+    <form>
+        <p>{{ homework.title }}</p>
+        <p>{{ homework.content }}</p>
+    </form>
+    {% endif %}
+{% else %}
+<a href="{% url 'courses:next_section' section.pk %}">Следующий раздел</a><br/>
+{% endif %}
+<a href="{% url 'courses:my_courses' %}">К моим курсам</a>
+{% endblock content %}

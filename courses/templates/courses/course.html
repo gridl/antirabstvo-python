@@ -1,0 +1,19 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+{% if sections.count > 0 %}
+<P>Разделы курса:</P>
+<table class="table table-striped">
+    {% for section in sections %}
+    <tr>
+        <td>
+            {% if section.pk <= progress.progress_section.pk %}
+            <a href="{% url 'courses:section_detail' section.pk %}">{{ section }}</a>
+            {% else %}
+            {{ section }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock content %}
