@@ -1,0 +1,68 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+{% if cart %}
+<span id="message-box"></span>
+<table class="table table-striped">
+    <tr>
+        <th>Продукт</th>
+        <th>Цена</th>
+        <th></th>
+    </tr>
+    {% for product in cart.products.all %}
+    <tr class="product_line_{{ product.pk }}">
+        <td>{{ product.title }}</td>
+        <td>{{ product.price }}</td>
+        <td><a href="javascript:void(0)" id="remove_from_cart" data-id="{{ product.pk }}">Удалить</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<label for="coupon">Введите купон</label>
+<input type="text" id="coupon" name="coupon" placeholder="Код купона">
+<a href="javascript:void(0)" data-order-id="{{ cart.pk }}" id="enter-coupon">Принять</a>
+<p>Всего к оплате: <span id="summ">{{ cart.order_summ }}</span> р.</p>
+<a href="javascript:void(0)" id="pay" class="btn btn-primary">Оплатить</a>
+{% else %}
+<p>Ваша корзина пуста</p>
+{% endif %}
+{% endblock content %}
+
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$('#enter-coupon').click(function(e){
+    e.preventDefault();
+    $.post(
+        "{% url 'products:add_coupon' %}",
+        {
+            'order_id': $(this).data('order-id'),
+            'coupon': $('#coupon').val()
+        },
+        function(data) {
+            $('#message-box').text(data.text);
+            $('#summ').text(data.new_price);
+        });
+});
+$('#remove_from_cart').click(function(e){
+    e.preventDefault();
+    $.post(
+        "{% url 'products:remove_from_cart' %}",
+        {
+            'product_id': $(this).data('id'),
+        },
+        function(data) {
+            if(data.status == 'redirect') {
+                document.location.href='/';
+            } else {
+                $('#message-box').text(data.text);
+                $('#summ').text(data.new_price);
+            }
+        });
+});
+$('#pay').click(function(e){
+    e.preventDefault();
+    if($('#summ').text() == '0') {
+        document.location.href='{% url 'products:checkout' %}';
+    }
+});
+</script>
+{% endblock extra_scripts %}

@@ -1,0 +1,31 @@
+{% extends "antirabstvo/base.html" %}
+{% block content %}
+<div class="product" style="margin-bottom:15px;">
+    <h2>{{ object.title }}</h2>
+    <input type="hidden" name="product_id" value="{{ object.pk }}"/>
+    {% if object.image %}
+    <img src="{{ object.image.url }}" />
+    {% endif %}
+    <p style="padding-top:20px">{{ object.description }}</p>
+    <p>Цена {{ object.price }} р.</p>
+    <a href="#" id="add-to-cart" class="btn btn-success">Добавить в корзину</a>
+    <span id="message"></span>
+    <a href="{% url 'products:cart' %}" id="go-to-cart" style="display:none">Перейти в корзину</a>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$('#add-to-cart').click(function(e){
+    e.preventDefault();
+    $.post(
+        "{% url 'products:add_to_cart' %}",
+        {'product_id': $('input[name="product_id"]').val()},
+        function(data) {
+            $('#add-to-cart').hide();
+            $('#message').text(data.text);
+            $('#go-to-cart').show();
+        });
+});
+</script>
+{% endblock extra_scripts %}

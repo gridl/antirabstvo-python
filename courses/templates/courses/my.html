@@ -5,7 +5,7 @@
 <table class="table table-striped">
     {% for access_course in my_courses %}
     <tr>
-        <td><a href="{% url 'courses:course_detail' access_course.pk %}">{{ access_course.course }}</a></td>
+        <td><a href="{% url 'courses:course_detail' access_course.progress_section.pk %}">{{ access_course.course }}</a></td>
     </tr>
     {% endfor %}
 </table>

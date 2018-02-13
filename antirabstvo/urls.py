@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^vacancies/', include('vacancies.urls', namespace='vacancies')),
     url(r'^questions/', include('questions.urls', namespace='questions')),
     url(r'^news/', include('news.urls', namespace='news')),
-    url(r'^courses/', include('courses.urls', namespace='courses'))
+    url(r'^courses/', include('courses.urls', namespace='courses')),
+    url(r'^products/', include('products.urls', namespace="products"))
 ] \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
